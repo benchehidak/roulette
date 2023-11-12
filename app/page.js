@@ -1,90 +1,16 @@
 // import Image from 'next/image'
-'use client';
-import { Wheel } from 'react-custom-roulette'
-import { useState } from 'react';
+import dynamic from "next/dynamic";
+
 
 export default function Home() {
-  const [mustSpin, setMustSpin] = useState(false);
-  const [prizeNumber, setPrizeNumber] = useState(0);
-  const data = [
-    { option: 'clavier',
-      image : 
-      {
-        uri :'/images/keyboard.png',
-        sizeMultiplier : 0.5,
-        landscape : true,  
-      },
-   },
-    { 
-      option: 'batterie',
-      image : 
-      {
-        uri :'/images/drum.png',
-        sizeMultiplier : 0.5,
-        landscape : true,  
-      },
-     },
-    { 
-      option: 'guitar',
-      image : 
-      {
-        uri :'/images/electric-guitar.png',
-        sizeMultiplier : 0.5,
-        landscape : true,  
-      },
-    },
-    { 
-      option: 'Triangle',
-      image : 
-      {
-        uri :'/images/triangle.png',
-        sizeMultiplier : 0.5,
-        landscape : true,  
-      },
-     },
-    { 
-      option: 'Bass',
-      image : 
-      {
-        uri :'/images/bass-guitar.png',
-        sizeMultiplier : 0.5,
-        landscape : true,  
-      },
-     },
-    { 
-      option: 'Vocals',
-      image : 
-      {
-        uri :'/images/microphone.png',
-        sizeMultiplier : 0.5,
-        landscape : true,  
-      },
-     },
-  ]
-  const handleSpinClick = () => {
-    if (!mustSpin) {
-      const newPrizeNumber = Math.floor(Math.random() * data.length);
-      setPrizeNumber(newPrizeNumber);
-      setMustSpin(true);
-    }
-  }
+    const Roulette = dynamic(() => import('../components/roulette'), {
+        ssr: false
+    });
+    return (
+        <main className="flex min-h-screen flex-col items-center justify-between p-24">
+            <Roulette />
+        </main>
+    )
 
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Wheel
-        mustStartSpinning={mustSpin}
-        prizeNumber={prizeNumber}
-        data={data}
-        backgroundColors={['#002579', '#3A55B4']}
-        pointerProps={{
-          src: '/images/pointer.png',
-        }}
-
-        onStopSpinning={() => {
-          setMustSpin(false);
-        }}
-      />
-      <button className="bg-blue-500 hover:bg-blue-700  text-white font-bold py-2 sm:py-4 px-4 sm:px-8 rounded-full w-40 border-4 border-black " onClick={handleSpinClick}>SPIN</button>
-    </main>
-  )
+  
 }
